@@ -1,0 +1,80 @@
+body {
+    overflow: hidden;
+    
+}
+
+.imgp img{
+    width: 200px;
+    text-align: center;
+}
+.imgp{
+    align-items: center;
+}
+.infor{
+    font-size: 30px;
+    text-align: center;
+    font-weight: 800;
+}
+
+.hide *{
+    transform: scale(0);
+    transition:all 0.1s ease;
+    display: none;
+    
+    
+    
+    
+
+}
+.visble *{
+    transform:scale(1);
+    transition: transform 0.4s ease-in-out;
+    display:all;
+    
+    
+    
+}
+.card{
+    max-height: 100% !important;
+    overflow-y: auto;
+}
+.info{
+    text-align: center;
+}
+.infp{
+    margin-left: 4%;
+    margin-top: 2%;
+    text-decoration: dotted;
+
+}
+.infp::before{
+    content: "Nombre de client non payer : ";
+    font-weight: 700;
+    color: white;
+
+}
+
+#elem4{
+    max-height: 300px;
+    max-width: 100%;
+}
+
+.btn-dell{
+    color: white;
+    font-weight: 600;
+    font-size: 9px;
+    height: 20px;
+    background-color: rgba(238, 2, 2, 0.555);
+    margin: 10px;
+    
+    border-radius: 2px;
+    border: none;
+    transition: 0.2s ease-in;
+}
+.btn-dell:hover{
+    background-color: rgba(167, 108, 108, 0.719);
+    transition:0.2s ease-in;
+}
+.head_list{
+    margin-bottom: 20px;
+}

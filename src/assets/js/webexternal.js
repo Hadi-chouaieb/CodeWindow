@@ -1,0 +1,1 @@
+const{ipcRenderer}=require("electron");document.getElementById("menulist").addEventListener("click",function(e){if(e.target.id=="linkstolist"){var n=e.target.title;openwindow(n)}});function openwindow(e){ipcRenderer.invoke("open-child-window",e)}

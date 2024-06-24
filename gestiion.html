@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Window service</title>
+    <link rel="stylesheet" href="./src/assets/style.css">
+    <link rel="stylesheet" href="./src/assets/gestion.css">
+    <link rel="stylesheet" href="./src/assets/items-color.css">
+    <link rel="stylesheet" href="./src/assets/bootstrap.css">
+</head>
+
+
+
+    <body class="bg-blsec" onload="">
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-bl  mt-1">
+
+            <div class="container-fluid">
+                <a class="navbar-brand" href="javascript:void(0)">
+                    <span id="" class="logoo" onclick="toggleSidebar()">&#9776;</span>
+                </a>
+                <div class="collapse navbar-collapse" id="mynavbar">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Code Window</a>
+                        </li>
+                        <li class="nav-item">
+                            <b class="nav-link" onclick="window.location.replace('pack.html')">Paquet</span></b>
+                        </li>
+                    </ul>
+                    <li class="nav-item">
+                        <b class="nav-link" ><span id="keyText" class="text-light">XXXX-XXXX-XXXX-XXXX</span> <span id="keyDat" class="text-danger"></span></b>
+                    </li>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row">
+                <div class="col-md-8 mt-5 container d-flex justify-content-center" id="elem2">
+                    <div class="row col-md-8 card">
+                        <h4 class="mt-3">Activation Code</h4>
+                        <form id="crud-form" class="text-center row mt-3 mb-5 d-flex justify-content-center">
+                            <div class="col-md-10 col-sm-8">
+                                <input class="form-control " type="text" id="activate" name="serial"
+                                    placeholder="Clè d'Activation">
+                            </div>
+                        </form>
+                        <div class="text-center ">
+                            <button class="btn btn-pink col-sm-6 col-md-6"  type="button" onclick="activation()"
+                                id="submit">Activer</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- pop up --------------------->
+                <div class="d-flex justify-content-end">
+                    <div class="pop">
+        
+                        <div class="popup" id="popup">
+                            <img src="./src/assets/imgs/tick.png" alt="" id="img"><br>
+                            <b id="hedmsg">Thank You!</b>
+                            <p id="msgg">Your Details has been Succesfully Submitted.Thanks!</p>
+                            <button type="button" onclick="closePopup()">OK</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        
+        <script>
+            // window.location.replace('./index.html');
+        </script>
+
+        
+        <script src="./src/jqery.js"></script>
+        <script src="./src/admin-front.js"></script>
+        <!-- <script src="./src/assets/js/script2.js"></script> -->
+        <script src="./src/assets/bootstrap.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,32 @@
+:root{
+    --bl:#2d2f57   !important;
+    --blsec:#1d1841 !important;
+    --grn:#2E6460;
+    --grnsec:#345A71;
+    --bll:#233658;
+    --vio:#1D1F48;
+
+}
+
+.btn-pink{
+    background-color:var(--blsec) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    transition: 1s;
+    margin-bottom: 20px;
+}
+.btn-pink:hover{
+    background-color: var(--grn) !important;
+    
+
+}
+.bg-bl{
+    background-color: var(--bl) !important ;
+}
+.bg-blsec{
+    background-color: var(--blsec) !important ;
+}
+
+.card{
+    background-color: var(--bl) !important;
+}

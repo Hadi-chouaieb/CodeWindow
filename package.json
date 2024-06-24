@@ -1,0 +1,27 @@
+{
+  "name": "store",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . --icon=./logo.ico",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": [
+    "electron",
+    "application",
+    "store"
+  ],
+  "author": "Hadi chouaieb",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "electron": "^29.1.0",
+    "electron-packager": "^17.1.2",
+    "express": "^4.18.3",
+    "multer": "^1.4.5-lts.1",
+    "pkg": "^5.8.1",
+    "sqlite3": "^5.1.7",
+    "twilio": "^5.0.1"
+  }
+}

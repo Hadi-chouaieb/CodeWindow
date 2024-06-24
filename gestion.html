@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Window service</title>
+    <link rel="stylesheet" href="./src/assets/bootstrap.css">
+    <link rel="stylesheet" href="./src/assets/style.css">
+    <link rel="stylesheet" href="./src/assets/gestion.css">
+    <link rel="stylesheet" href="./src/assets/items-color.css">
+
+
+</head>
+    <body class="bg-blsec" onload="">
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-bl  mt-1">
+
+            <div class="container-fluid">
+                <a class="navbar-brand" href="javascript:void(0)">
+                    <span id="" class="logoo" onclick="toggleSidebar()">&#9776;</span>
+                </a>
+                <div class="collapse navbar-collapse" id="mynavbar">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openwindow('http://www.facebook.com/Hadi.chouaieb')">Support
+                                technique</a>
+                        </li>
+                    </ul>
+                    <li class="nav-item">
+                        <b class="nav-link"><span id="keyText" class="text-light">XXXX-XXXX-XXXX-XXXX</span> <span
+                                id="keyDat" class="text-danger"></span></b>
+                    </li>
+                </div>
+                <span class="d-flex justify-content-end mx-5" onclick="logout()"><img src="./src/assets/imgs/logout.png" alt="" srcset="" class="logoutimg "></span>
+
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-md-2">
+                <div id="sidebar">
+                    <a href="#" onclick="toggleSidebar(),location.reload();" align="center"><img
+                            src="./src/assets/imgs/logo.png" class="logoo" alt="" srcset="" id="logo"></a>
+                    <hr>
+                    <a href="#" id="s3" class="select" onclick="show_AO(),select(this.id)">Statistiques</a>
+                    <hr>
+                    
+                    <a href="#" id="s4" onclick="show_AP(),select(this.id)">Ajouter un page </a>
+                    <a href="#" id="s5" onclick="show_AFP(),select(this.id)">Gestion des pages</a>
+                    <hr>
+                    
+                    <a href="#" id="s6" onclick="show_AFPA(),select(this.id)">Paramètres du compte</a>
+                    <a href="#" id="s2" onclick="show_Ac(),select(this.id)">Activation</a>
+                    <hr>
+                    <a href="#" id="s1" onclick="window.location.replace('./index.html')">Unité de Service</a>
+                    
+
+
+                </div>
+            </div>
+            <div class="col-md-8 container d-block justify-content-around">
+                <div class=" container d-flex justify-content-end" id="elem1">
+                    <div class="row mt-5 col-md-12">
+                        <div class="card col-md-8 m-2">
+                            <div class="text-light infp fw-bold" id="clnb">0</div>
+                            <div class="imgp text-center d-flex justify-content-center">
+                                <img src="./src/assets/imgs/nonpayer.png" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="text-danger infor" id="ttprix">20 DT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 container d-flex justify-content-center mt-5" id="elem5">
+
+                <div class="row col-md-12 d-flex justify-content-center ">
+                    <div class="col-md-5 card m-2">
+                        <h4 class="mt-3">Changer le nom </h4>
+                        <form action="">
+                        <div id="crud-form" class="text-center row mt-3 d-flex justify-content-center">
+                            <div class="col-md-10 col-sm-8">
+                                
+                                    <input class="form-control " type="text" id="newuser" name=""
+                                        placeholder="Nouveau nom">
+                            </div>
+                            <button class="btn btn-pink col-sm-6 col-md-6 mt-5" type="button" onclick="changenom()" id="submit">Changer</button>
+                        </div>
+                    </form>
+                    </div>
+
+                    <div class="col-md-5 m-2 card">
+                        <h4 class="mt-3">Changer le photo</h4>
+                        <form id="uploadForm" enctype="multipart/form-data">
+                        <div id="crud-form" class="text-center row mt-3  d-flex justify-content-center">
+                            <div class="col-md-10 col-sm-8">
+                                
+                                    <input type="file" class="form-control" name="photo" accept="image/*" id="newphoto">
+                            </div>
+                            <button class="btn btn-pink col-sm-6 col-md-6 mt-5" type="button" onclick="changephoto()"id="submit">Changer</button>
+                        </div>
+                    </form>
+
+
+                    </div>
+
+
+
+                    <div class="col-md-8 card">
+                        <h4 class="mt-3">Changer mot de passe</h4>
+                        <form action="">
+                        <div id="crud-form" class="text-center row mt-3  d-flex justify-content-center">
+                            
+                            <div class="col-md-10 col-sm-8">
+                               
+                                    <input class="form-control " type="text" id="newpswd" name=""
+                                        placeholder="Nouveau mot de passe">
+                            </div>
+                            <button class="btn btn-pink col-sm-6 col-md-6 mt-5" type="button" onclick="changepassword()"
+                                id="submit">Changer</button>
+                        </div>
+                    </form>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+            </div>
+            <div class="col-md-8 container d-flex justify-content-center" id="elem2">
+                <div class="row col-md-8 card">
+                    <h4 class="mt-3">Activation Code</h4>
+                    <form id="crud-form" class="text-center row mt-3  d-flex justify-content-center">
+                        <div class="col-md-10 col-sm-8">
+                            <input class="form-control " type="text" id="activate" name="serial"
+                                placeholder="Clè d'Activation">
+                        </div>
+                        <button class="btn btn-pink col-sm-6 col-md-6 mt-5" type="button" onclick="activation()"
+                        id="submit">Activer</button>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+            <div class="container col-md-7 col-sm-6 justify-content-end mt-5" id="elem3">
+                <div class="row card">
+                    <h4 class="mt-3">Ajouter un page</h4>
+                    <form id="crud-form" class="text-center row  d-flex justify-content-center">
+
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control " type="text" id="pageUrl" name="" placeholder="www.exemple.com">
+
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control " type="text" id="pageTitle" name="" placeholder="exemple">
+
+                        </div>
+                        <button class="btn btn-pink col-sm-6 col-md-6 mt-5" type="button" onclick="ajouterPage()"
+                            id="submit">Ajouter Un Page</button>
+                    </form>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- pop up ------------------- -->
+            <div class="d-flex justify-content-end">
+                <div class="pop">
+
+                    <div class="popup" id="popup">
+                        <img src="./src/assets/imgs/tick.png" alt="" id="img"><br>
+                        <b id="hedmsg">Thank You!</b>
+                        <p id="msgg">Your Details has been Succesfully Submitted.Thanks!</p>
+                        <button type="button" onclick="closePopup()">OK</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        </div>
+
+        <div class="col-md-8 container" id="elem4">
+            <div class="card ">
+                    <table class="table-dark container" >
+                    <thead class="p-5 m-5" >
+                        <th>Supprimer</th>
+                        <th>Titre</th>
+                        <th>Url</th>
+                        <th>Afficher</th>
+                    </thead>
+                    <tbody id="container" class="m-1 p-4">
+
+                    </tbody>
+                    </table>
+            
+            </div>
+
+        </div>
+
+        <script>
+            // window.location.replace('./index.html');
+        </script>
+
+        <script src="./src/assets/js/webexternal.js"></script>
+        <script src="./src/jqery.js"></script>
+        <script src="./src/admin-front.js"></script>
+        <script src="./src/assets/js/script2.js"></script>
+        <script src="./src/assets/bootstrap.js"></script>
+    </body>
+
+</html>

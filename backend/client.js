@@ -1,0 +1,35 @@
+const express=require("express");const bodyParser=require("body-parser");const sqlite3=require("sqlite3").verbose();const multer=require("multer");const fs=require("fs");const db=new sqlite3.Database("./shop.db");const upload=multer({dest:"uploads/"});const app=express();const port=3e3;const{ajouter_Link,autoUpdate,autodatee}=require("./admin");function formatDate(e){const t=e.getFullYear();var n=e.getMonth()+1;var a=e.getDate();if(n<9){n="0"+n}if(a<9){a="0"+a}return`${a}-${n}-${t}`}function formatDate_(e){const t=e.split("-");const n=parseInt(t[2],10);const a=parseInt(t[1],10)-1;const s=parseInt(t[0],10);const d=new Date(n,a,s);d.setDate(d.getDate()+32);const o=d.getFullYear();var r=d.getMonth()+1;var i=d.getDate();if(r<9){r="0"+r}if(i<9){i="0"+i}const c=`${i}-${r}-${o}`;return c}const cc=new Date;const dtnw=formatDate(cc);const dtfn=formatDate_(dtnw);function generateRandomCode(){const t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";let n="";const a=16;for(let e=0;e<a;e++){const s=Math.floor(Math.random()*t.length);n+=t.charAt(s)}return n}function add_(e){const t=Math.floor(e.length/4);const n=e.slice(0,t);const a=e.slice(t,2*t);const s=e.slice(2*t,3*t);const d=e.slice(3*t);const o=[n,a,s,d].join("-");return o}const aarand=generateRandomCode();const rand=add_(aarand);db.serialize(()=>{db.run(`CREATE TABLE IF NOT EXISTS service (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      mfty TEXT  ,
+      mtyfn TEXT  ,
+      number INTEGER,
+      Key TEXT 
+    )`);db.run(`CREATE TABLE IF NOT EXISTS client (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nom TEXT ,
+      dtdb TEXT  ,
+      dtfn TEXT,
+      Payer TEXT DEFAULT "Yes"
+    )`);db.run(`CREATE TABLE IF NOT EXISTS adminPanel (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      url  TEXT NOT NULL,
+      title TEXT NOT NULL,
+      valid TEXT
+    )`);db.run(`CREATE TABLE IF NOT EXISTS achat (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      prix TEXT NOT NULL,
+      clid INTEGER,
+      FOREIGN KEY(clid) REFERENCES client(id)
+    )`);db.run(`CREATE TABLE IF NOT EXISTS admin (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      password TEXT DEFAULT 'code',
+      nom TEXT DEFAULT 'Code Window',
+      image BLOB DEFAULT NULL,
+      status TEXT DEFAULT "N"
+    )`);db.get("SELECT COUNT(*) AS count FROM service",function(e,t){if(e){return}if(t.count===0){db.run("INSERT INTO service (mfty, mtyfn, number, Key) VALUES (?, ?, ?, ?)",[rand,dtfn,1,rand],function(e){if(e){}else{}})}else{}})});autoUpdate(dtnw);app.use(bodyParser.json());app.post("/client/addCL",(e,t)=>{const{nom:n}=e.body;db.serialize(()=>{const e=db.prepare("INSERT INTO client (nom,dtdb,dtfn) VALUES (?,?,?)");e.run(n,dtnw,dtfn);e.finalize()});t.status(200).send(n+" a été ajouté avec succès")});app.post("/client/showCL",(e,n)=>{const{nom:t}=e.body;db.all("SELECT * FROM client where nom like ?",[t+"%"],(e,t)=>{n.json(t)})});app.post("/client/clachat",(e,n)=>{const{id:t}=e.body;const a=`
+    SELECT a.id, a.prix, c.nom
+    FROM achat a ,client c
+    
+    WHERE a.clid = ? and a.clid = c.id
+    GROUP BY a.id
+  `;db.all(a,[t],(e,t)=>{if(e){n.status(500).json({error:"خطأ في استرجاع المشتريات."})}else{n.json(t)}})});app.post("/client/addprix",(e,t)=>{const{prix:n,id:a}=e.body;db.run("INSERT INTO achat (prix,clid)VALUES (?, ?)",[parseInt(n),parseInt(a)],function(e){if(e){t.json(e)}else{t.json("Prix Ajoutée")}})});app.post("/client/payment",(e,t)=>{const{prix:n,id:a}=e.body;const s="Yes";db.run("UPDATE client set dtdb =? ,dtfn = ?,Payer = ? where id=?",[dtnw,dtfn,s,a]);db.run("Delete from achat where clid = ? ",[a]);db.run("INSERT INTO achat (prix,clid)VALUES (?, ?)",[parseInt(n),parseInt(a)],function(e){if(e){t.json(e)}else{t.json("Paiment avec success")}})});app.post("/client/suppcl",(e,t)=>{const{id:n}=e.body;db.run("Delete from achat where clid = ? ",[n]);db.run("Delete from client where id = ? ",[n],function(e){if(e){t.json(e)}else{t.json("Supprimr avec success")}})});app.post("/admin/addlink",(e,t)=>{const{url:n,titel:a,valid:s}=e.body;ajouter_Link(a,n,s);t.status(200).send("Page a été ajouté avec succès")});app.get("/admin/showLink_valid",(e,n)=>{db.all("SELECT url,title FROM adminPanel where valid = ?  ",["Y"],(e,t)=>{n.json(t)})});app.get("/admin/showLink",(e,n)=>{db.all("SELECT id, url,title,valid FROM adminPanel  ",(e,t)=>{n.json(t)})});app.post("/admin/updateShow",(e,t)=>{const{id:n}=e.body;db.run("UPDATE adminPanel SET valid = 'Y' WHERE id = ?",[n],function(e){if(e){t.status(500).json({error:"An error occurred while updating the record."});return}t.json({message:"Record updated successfully."})})});app.post("/admin/updateHide",(e,t)=>{const{id:n}=e.body;db.run("UPDATE adminPanel SET valid = 'N' WHERE id = ?",[n],function(e){if(e){t.status(500).json({error:"An error occurred while updating the record."});return}t.json({message:"Record updated successfully."})})});app.post("/admin/deleteLink",(e,t)=>{const{id:n}=e.body;db.run("delete from adminPanel  WHERE id = ?",[n],function(e){if(e){t.status(500).json({error:"An error occurred while updating the record."});return}t.json({message:"Record updated successfully."})})});app.get("/admin/showCLNotPayed",(e,s)=>{db.all("SELECT COUNT(*) AS clientCount FROM client WHERE Payer = 'No'",(e,a)=>{if(e){return}db.all("SELECT SUM(prix) AS totalPurchase FROM client c JOIN achat a ON a.clid = c.id WHERE c.Payer = 'No'",(e,t)=>{if(e){return}const n={clnbr:a[0].clientCount,totalprix:t[0].totalPurchase};s.json(n)})})});app.get("/service/A1_1A",(e,n)=>{db.all("SELECT mfty,mtyfn,Key FROM service",(e,t)=>{n.json(t)})});app.post("/service/1AA",(e,t)=>{let{num:n,key:a}=e.body;db.all("UPDATE service set mfty =? , Key = ?, mtyfn = ?, number = ?",[a,a,dtfn,n],e=>{if(e){}else{t.send("The programm has been activated")}})});app.get("/service/A1A",(e,n)=>{db.get("SELECT COUNT(*) AS count FROM service WHERE Key = mfty",(e,t)=>{if(t.count==1){n.send(true)}else{n.send(false)}})});app.get("/admin/status",(e,n)=>{db.all("SELECT * FROM admin",(e,t)=>{n.json(t)})});app.post("/admin/login",(e,t)=>{db.all("UPDATE admin set status ='Y' where password = ?",e.body.pass,e=>{})});app.post("/admin/logout",(e,t)=>{db.all("UPDATE admin set status ='N'");t.status(200).send("logout")});app.post("/admin/updatepass",(e,t)=>{db.all("UPDATE admin set password = ?",[e.body.pass]);t.status(200).send("password updated")});app.post("/admin/updateusername",(e,t)=>{db.all("UPDATE admin set nom = ?",[e.body.nam]);t.status(200).send("password updated")});app.post("/admin/updatephoto",upload.single("photo"),(e,t)=>{if(!e.file){return t.status(400).send("No file uploaded.")}const n=e.file.path+"";db.run("UPDATE admin SET image = ?",[n],function(e){if(e){return t.status(500).send(e.message)}t.status(200).send("Image updated successfully.")})});app.post("/admin/resetpassword",(e,t)=>{db.all("UPDATE admin set password = ?",["code"]);t.status(200).send("password updated")});app.listen(port,()=>{});
